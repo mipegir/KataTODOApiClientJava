@@ -14,10 +14,7 @@
  */
 
 package com.karumi.todoapiclient;
-
 import com.karumi.todoapiclient.dto.TaskDto;
-
-import java.rmi.UnknownHostException;
 import java.util.List;
 
 import com.karumi.todoapiclient.exception.ItemNotFoundException;
@@ -80,10 +77,6 @@ public class TodoApiClientTest extends MockWebServerTest {
     apiClient.getTaskById(ANY_ID);
 
   }
-
-
-
-
 
 
   private void assertTaskContainsExpectedValues(TaskDto task) {
