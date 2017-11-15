@@ -14,7 +14,6 @@
  */
 
 package com.karumi.todoapiclient;
-import com.google.gson.Gson;
 import com.karumi.todoapiclient.dto.TaskDto;
 import java.util.List;
 
