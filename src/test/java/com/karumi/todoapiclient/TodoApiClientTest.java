@@ -130,7 +130,7 @@ public class TodoApiClientTest extends MockWebServerTest {
 
 
   private TaskDto givenAValidTask() {
-    return new TaskDto("1", "2", "delectus aut autem", false);
+    return new TaskDto("1", "2", "Finish this kata", false);
   }
 
   private void assertTaskContainsExpectedValues(TaskDto task) {
