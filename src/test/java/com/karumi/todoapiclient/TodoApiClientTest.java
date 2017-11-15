@@ -14,20 +14,24 @@
  */
 
 package com.karumi.todoapiclient;
+import com.google.gson.Gson;
 import com.karumi.todoapiclient.dto.TaskDto;
 import java.util.List;
 
 import com.karumi.todoapiclient.exception.ItemNotFoundException;
 import com.karumi.todoapiclient.exception.UnknownErrorException;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.mockito.Mockito.mock;
 
 public class TodoApiClientTest extends MockWebServerTest {
 
   private static final String ANY_ID = "any";
+  private static final TaskDto ANY_TASK = mock(TaskDto.class);
   private TodoApiClient apiClient;
 
   @Before public void setUp() throws Exception {
@@ -78,6 +82,59 @@ public class TodoApiClientTest extends MockWebServerTest {
 
   }
 
+  @Test
+  public void shouldGetTaskByIdAndValidateIt() throws Exception {
+
+    enqueueMockResponse(200, "getTaskByIdResponse.json");
+    TaskDto taskById = apiClient.getTaskById(ANY_ID);
+
+    assertTaskContainsExpectedValues(taskById);
+//    assertEquals(
+//            new Gson().fromJson("{\n" +
+//            "  \"userId\": 1,\n" +
+//            "  \"id\": 1,\n" +
+//            "  \"title\": \"delectus aut autem\",\n" +
+//            "  \"completed\": false\n" +
+//            "}", TaskDto.class ),
+//
+//            taskById);
+  }
+
+  @Test
+  public void shouldSendAValidIdInTheUrl() throws Exception {
+    enqueueMockResponse();
+
+    apiClient.getTaskById(ANY_ID);
+
+    super.assertGetRequestSentTo("/todos/" + ANY_ID);
+
+  }
+
+  @Test
+  public void shouldSendAValidBodyWhenAValidPost() throws Exception {
+
+    enqueueMockResponse();
+
+    apiClient.addTask(givenAValidTask());
+
+    assertRequestBodyEquals("addTaskRequest.json");
+  }
+
+  @Test
+  public void shouldPostAnTaskAndReceiveResponse() throws Exception {
+
+    enqueueMockResponse(200, "getTaskByIdResponse.json");
+
+    TaskDto taskDto = apiClient.addTask(ANY_TASK); //No importa la entrada, no se está probando.
+
+    assertTaskContainsExpectedValues(taskDto);
+  }
+
+
+  @NotNull
+  private TaskDto givenAValidTask() {
+    return new TaskDto("1", "2", "delectus aut autem", false);
+  }
 
   private void assertTaskContainsExpectedValues(TaskDto task) {
     assertEquals(task.getId(), "1");
