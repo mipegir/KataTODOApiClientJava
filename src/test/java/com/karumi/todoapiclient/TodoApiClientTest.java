@@ -19,7 +19,6 @@ import java.util.List;
 
 import com.karumi.todoapiclient.exception.ItemNotFoundException;
 import com.karumi.todoapiclient.exception.UnknownErrorException;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -130,7 +129,6 @@ public class TodoApiClientTest extends MockWebServerTest {
   }
 
 
-  @NotNull
   private TaskDto givenAValidTask() {
     return new TaskDto("1", "2", "delectus aut autem", false);
   }
